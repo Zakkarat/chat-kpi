@@ -16,6 +16,13 @@ io.on('connection', (socket) => {
     socket.username = username;
     socket.broadcast.emit('system new', socket.username);
   })
+  socket.on('message', (message) => {
+    const data = {
+      username: socket.username,
+      message
+    }
+    io.emit('render message', data)
+  })
 })
 
 server.listen(port, () => {
