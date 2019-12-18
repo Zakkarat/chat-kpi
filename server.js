@@ -14,7 +14,6 @@ app.use(express.static('./client'));
 io.on('connection', (socket) => {
   socket.on('set username', (username) => {
     socket.username = username;
-    io.emit('new user', socket.username);
     socket.broadcast.emit('system new', socket.username);
   })
 })
