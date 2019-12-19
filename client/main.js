@@ -1,5 +1,6 @@
 const socket = io();
-
+let messages;
+let isHistory = false;
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('room').onsubmit = (e) => {
@@ -15,17 +16,27 @@ document.addEventListener('DOMContentLoaded', () => {
         e.target.elements[0].value = '';
     }
     document.getElementById('toHistory').onclick = async() => {
-        fetch('/db').then(response => {
+        if(!isHistory) {
+        await fetch('/db').then(response => {
             if(response.ok) {
                 return response.json();
             }
         }).then(data => {
             const box = document.getElementById('messages');
-            box.innerText = '';
+            messages = box.innerText;
+            isHistory = true;
+            box.innerText = ''; 
             data.forEach(elem => {
                 box.innerText += `[${elem.username}]: ${elem.message}`
             });
         })
+    }
+    }
+    document.getElementById('toChat').onclick = () => {
+        if(isHistory) {
+            document.getElementById('messages').innerText = messages
+            isHistory = false;
+        }
     }
 });
 

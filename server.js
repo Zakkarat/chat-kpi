@@ -10,9 +10,9 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/client/index.html');
 });
 
-app.get('/db', (req, res) => {   db.all('SELECT * FROM counters', (err, rows) => {
+app.get('/db', (req, res) => {   
+  db.all('SELECT * FROM messages', (err, rows) => {
   res.send(rows)
-
 })});
 
 app.use(express.static('./client'));
